@@ -1,25 +1,29 @@
 'use strict';
+const env = process.env.NODE_ENV || 'development';
+const config = require(__dirname + '/../config/config.json')[env];
 module.exports = (sequelize, DataTypes) => {
-  const Enquiry = sequelize.define('Enquiry', {
+
+  let tbl_enquiry_structure = {
     firstName: DataTypes.STRING,
     lastName: DataTypes.STRING,
-    fatherName: {
-      type: DataTypes.STRING
-    },
+    fatherName: DataTypes.STRING,
     enqDate: DataTypes.DATE,
-    // courseId: {
-    //   type: DataTypes.ENUM('C','CPP','JAVA','NODEJS','PHP'),
-    //   allowNull: false
-    // },
-    courseId: {
-      type: DataTypes.INTEGER
-      //get course using courseId from coursetable
-    },
+    courseId: DataTypes.INTEGER,
     remarks: DataTypes.STRING,
-    status: DataTypes.ENUM('OPEN', 'CLOSE', 'DELETED'),
-  }, {});
+    status: DataTypes.ENUM('OPEN', 'CLOSE', 'DELETED')
+  };
+
+  if (config.dialect == 'sqlite') {
+    tbl_enquiry_structure.enqDate = DataTypes.TEXT;
+  } 
+  
+
+  const Enquiry = sequelize.define('Enquiry', tbl_enquiry_structure, {});
   Enquiry.associate = function(models) {
     // associations can be defined here
   };
   return Enquiry;
 };
+
+
+
