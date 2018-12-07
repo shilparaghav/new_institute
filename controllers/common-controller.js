@@ -58,11 +58,9 @@ module.exports = class CommonController {
             if (!(key in in_data_obj)) {
                 out_err.push(this.err_messages[key] + ' is required!');
                 flag = false;
-                console.log("if condition in common controller get required keys");
             } else if (val == undefined || val.trim() == '') {
                 out_err.push(this.err_messages[key] + ' must contains a value!');
                 flag = false;
-                console.log("else condition in common controller get required keys");
             }
             return flag;
         });
